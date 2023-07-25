@@ -14,6 +14,7 @@ import {
   Avatar,
   CssBaseline,
   Container,
+  responsiveFontSizes,
 } from "@mui/material";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 import { setUserToken } from "../slices/userSlice";
@@ -71,20 +72,32 @@ const SignUpForm = () => {
       try {
         setIsLoading(true);
 
-        const res = await emailSignUp(email, password);
-        console.log("res", res);
-        if (res.data.access_token) {
-          dispatch(setUserToken(res.data.access_token));
-          setIsLoading(false);
-          navigate("/");
-        }
-        //      handleUserRedirect(res.data, memId);
+        const res = emailSignUp(email, password);
+        // email
+        // :
+        // "eve.holt@reqres.in"
+        // password
+        // :
+        // "pistol"
+        res
+          .then((resolvedData) => {
+            console.log(resolvedData); // This will log the resolved data (the object) to the console.
+            // Now you can perform further actions with the resolved data.
+            if (resolvedData) {
+              dispatch(setUserToken(resolvedData));
+              setIsLoading(false);
+            }
+            navigate("/home");
+          })
+          .catch((error) => {
+            // If the promise was rejected, you can handle the error here.
+            console.error(error);
+            setApiError(error.message || "Error occurred during login.");
+            setIsLoading(false);
+          });
       } catch (error) {
-        if (error.message === "Email already exists")
-          console.log("error", error);
         setIsLoading(false);
-
-        setApiError(error.message);
+        setApiError(error);
       }
     }
   };
@@ -168,7 +181,7 @@ const SignUpForm = () => {
           disabled={isLoading}
           sx={{ mt: 3, mb: 2 }}
         >
-          {isLoading ? <Loader/> : "Sign Up"}
+          {isLoading ? <Loader /> : "Sign Up"}
         </Button>
         <Grid container justifyContent="flex-end">
           <Grid item>

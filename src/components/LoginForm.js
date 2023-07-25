@@ -1,6 +1,6 @@
 // author Muhammad idrees
 
-import React, { useState, startTransition } from "react";
+import React, { useState, startTransition, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserToken } from "../slices/userSlice";
 import { handleEmailLogin } from "../api/ApiFunctions";
@@ -34,6 +34,11 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const userToken = useSelector((state) => state.user.token);
+  useEffect(() => {
+    setTimeout(() => {
+      setApiError("");
+    }, 5000);
+  }, [apiError]);
 
   const handleLogin = async () => {
     if (state.email === "")
@@ -57,30 +62,28 @@ const LoginForm = () => {
         passwordError: true,
       });
     else {
-      try {
-        setIsLoading(true);
+      setIsLoading(true);
 
-        const data = handleEmailLogin(email, password);
-        data
-          .then((resolvedData) => {
-            console.log(resolvedData); // This will log the resolved data (the object) to the console.
-            // Now you can perform further actions with the resolved data.
-            localStorage.setItem("userToken", resolvedData.access_token);
-            if (resolvedData.access_token) {
-              dispatch(setUserToken(resolvedData.access_token));
+      const data = handleEmailLogin(email, password);
+      console.log("resolvedData ", data); // This will log the resolved data (the object) to the console.
 
-              setIsLoading(false);
-            }
-            navigate("/home");
-          })
-          .catch((error) => {
-            // If the promise was rejected, you can handle the error here.
-            console.error("Error occurred:", error);
-          });
-      } catch (error) {
-        console.log("error", error);
-        setApiError(error.message);
-      }
+      data
+        .then((resolvedData) => {
+          console.log(resolvedData); // This will log the resolved data (the object) to the console.
+          // Now you can perform further actions with the resolved data.
+          if (resolvedData) {
+            dispatch(setUserToken(resolvedData));
+
+            setIsLoading(false);
+          }
+          navigate("/home");
+        })
+        .catch((error) => {
+          // If the promise was rejected, you can handle the error here.
+          console.error(error);
+          setApiError(error.message || "Error occurred during login.");
+          setIsLoading(false);
+        });
     }
   };
 
@@ -143,7 +146,7 @@ const LoginForm = () => {
           disabled={isLoading}
           sx={{ mt: 3, mb: 2 }}
         >
-          {isLoading ? <Loader/> : "Login"}
+          {isLoading ? <Loader /> : "Login"}
         </Button>
         <Grid container justifyContent="flex-end">
           <Grid item>

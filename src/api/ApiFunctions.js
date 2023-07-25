@@ -1,8 +1,7 @@
 // author Muhammad idrees
 
 import axios from "axios";
-export const url = "https://api.babylonclubhouse.com";
-export const url2 = "https://api.babylonclubhouse.com/auth/v1";
+export const url = "https://reqres.in/api";
 export const url3="https://randomuser.me/api/";
 
 export const handleEmailLogin = (email, password) => {
@@ -13,16 +12,16 @@ export const handleEmailLogin = (email, password) => {
 
   try {
     return axios
-      .post(`${url}/auth/v1/login`, JSON.stringify(data), tokenConfig())
+      .post(`${url}/login`, JSON.stringify(data), tokenConfig())
       .then((res) => {
-        console.log("res.data.data", res.data.data);
-        return res.data.data;
+        console.log("res.data.data", res.data);
+        return res.data;
       })
       .catch((e) => {
-        throw new Error(e.response.data.message);
+       throw new Error(e.response.data.error);
       });
   } catch (error) {
-    throw new Error(error.response.data.message);
+    throw new Error(error);
   }
 };
 
@@ -30,13 +29,14 @@ export const emailSignUp = async (email, password) => {
   const body = { email, password };
   try {
     const res = await axios.post(
-      `${url2}/signup`,
+      `${url}/register`,
       JSON.stringify(body),
       tokenConfig()
     );
     return res.data;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    console.log(error.response.data.error)
+    throw new Error(error.response.data.error);
   }
 };
 
