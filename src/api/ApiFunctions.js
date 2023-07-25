@@ -4,6 +4,7 @@ import axios from "axios";
 export const url = "https://reqres.in/api";
 export const url3="https://randomuser.me/api/";
 
+// api url https://reqres.in/
 export const handleEmailLogin = (email, password) => {
   const data = {
     email,
