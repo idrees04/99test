@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { lazy } from "react";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import ErrorBoundary from "./ErrorBoundary";
 
-function App() {
+const Login = lazy(() => import("./components/LoginForm"));
+const SiginUp = lazy(() => import("./components/SignUpForm"));
+// const Home = lazy(() => import("./components/DataTable"));
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+            <ErrorBoundary>
+
+      <Routes>
+        <Route path="/" element={<Login />} />
+          <Route path="/siginUp" element={<SiginUp />} />
+        {/* <Route path="/home" element={<Home />} /> */}
+      </Routes>
+      </ErrorBoundary>
+
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
