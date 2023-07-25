@@ -1,5 +1,5 @@
-// src/components/SignUpForm.js
 // author Muhammad idrees
+
 import React, { useState, startTransition, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { emailSignUp } from "../api/ApiFunctions";

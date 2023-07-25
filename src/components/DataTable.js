@@ -1,4 +1,3 @@
-// src/components/DataTable.js
 // author Muhammad idrees
 
 import React from "react";

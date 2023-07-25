@@ -1,4 +1,5 @@
-// src/App.js
+// author Muhammad idrees
+
 import React, { Suspense, lazy } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import ErrorBoundary from "./ErrorBoundary";

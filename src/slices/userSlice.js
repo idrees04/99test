@@ -1,3 +1,5 @@
+// author Muhammad idrees
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
