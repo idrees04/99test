@@ -3,6 +3,7 @@
 import axios from "axios";
 export const url = "https://api.babylonclubhouse.com";
 export const url2 = "https://api.babylonclubhouse.com/auth/v1";
+export const url3="https://randomuser.me/api/";
 
 export const handleEmailLogin = (email, password) => {
   const data = {
@@ -51,4 +52,14 @@ export const tokenConfig = () => {
   }
 
   return config;
+};
+
+export const getData = async () => {
+  try {
+    const response = await axios.get(url3);
+    return response.data.results;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw new Error("Error fetching data");
+  }
 };

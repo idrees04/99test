@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 import { setUserToken } from "../slices/userSlice";
+import Loader from "./loader";
 
 const SignUpForm = () => {
   const [state, setState] = useState({
@@ -167,7 +168,7 @@ const SignUpForm = () => {
           disabled={isLoading}
           sx={{ mt: 3, mb: 2 }}
         >
-          {isLoading ? "Loading..." : "Sign Up"}
+          {isLoading ? <Loader/> : "Sign Up"}
         </Button>
         <Grid container justifyContent="flex-end">
           <Grid item>

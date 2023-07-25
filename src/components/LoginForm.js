@@ -18,6 +18,7 @@ import {
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 
 import { useNavigate } from "react-router-dom";
+import Loader from "./loader";
 const LoginForm = () => {
   const [state, setState] = useState({
     email: "",
@@ -142,7 +143,7 @@ const LoginForm = () => {
           disabled={isLoading}
           sx={{ mt: 3, mb: 2 }}
         >
-          {isLoading ? "Loading..." : "Login"}
+          {isLoading ? <Loader/> : "Login"}
         </Button>
         <Grid container justifyContent="flex-end">
           <Grid item>
