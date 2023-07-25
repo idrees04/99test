@@ -50,7 +50,7 @@ const LoginForm = () => {
             if (resolvedData.access_token) {
               setIsLoading(false);
             }
-            navigate("/");
+            navigate("/home");
           })
           .catch((error) => {
             // If the promise was rejected, you can handle the error here.
@@ -95,12 +95,16 @@ const LoginForm = () => {
         helperText={state.passwordError ? "Password is Required" : ""}
         fullWidth
       />
-      <Button onClick={handleLogin} variant="contained" color="primary" fullWidth>
+      <Button
+        onClick={handleLogin}
+        variant="contained"
+        color="primary"
+        fullWidth
+      >
         Login
       </Button>
       <Typography>
-        Don't have an account?{" "}
-        <Link onClick={navigateToLogin}>Sign Up</Link>
+        Don't have an account? <Link onClick={navigateToLogin}>Sign Up</Link>
       </Typography>
     </div>
   );
