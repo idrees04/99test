@@ -4,7 +4,18 @@ import React, { useState, startTransition, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { emailSignUp } from "../api/ApiFunctions";
 import { useNavigate } from "react-router-dom";
-import { TextField, Button, Typography, Link } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  Link,
+  Grid,
+  Paper,
+  Avatar,
+  CssBaseline,
+  Container,
+} from "@mui/material";
+import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 import { setUserToken } from "../slices/userSlice";
 
 const SignUpForm = () => {
@@ -78,11 +89,11 @@ const SignUpForm = () => {
   };
 
   useEffect(() => {
-   setTimeout(() => {
-    setApiError("");
-   }, 3000);
-  }, [apiError])
-  
+    const timer = setTimeout(() => {
+      setApiError("");
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [apiError]);
 
   const handleKeypress = (e) => {
     if (e.key === "Enter") {
@@ -97,50 +108,81 @@ const SignUpForm = () => {
   };
 
   return (
-    <div onKeyDown={handleKeypress}>
-      <Typography variant="h5">Sign Up</Typography>
-      <TextField
-        label="Email"
-        value={email}
-        onChange={(e) => setState({ ...state, email: e.target.value })}
-        error={Boolean(state.emailErr)}
-        helperText={state.emailErr }
-        fullWidth
-      />
-      <TextField
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setState({ ...state, password: e.target.value })}
-        error={Boolean(state.passwordError)}
-        helperText={state.passwordError}
-        fullWidth
-      />
-      <TextField
-        label="Confirm Password"
-        type="password"
-        value={confirmPassword}
-        onChange={(e) =>
-          setState({ ...state, confirmPassword: e.target.value })
-        }
-        error={Boolean(state.confirmPasswordError)}
-        helperText={state.confirmPasswordError}
-        fullWidth
-      />
-      <Button
-        onClick={handleSubmit}
-        variant="contained"
-        color="primary"
-        fullWidth
+    <Container onKeyDown={handleKeypress} component="main" maxWidth="xs">
+      <CssBaseline />
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
-        Sign Up
-      </Button>
-      <Typography>
-        Already have an account?
-        <Link onClick={navigateToLogin}>Login</Link>
-      </Typography>
-      <p>{apiError!==""? apiError:null}</p>
-    </div>
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign Up
+        </Typography>
+        <TextField
+          label="Email"
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          value={email}
+          onChange={(e) => setState({ ...state, email: e.target.value })}
+          error={Boolean(state.emailErr)}
+          helperText={state.emailErr}
+        />
+        <TextField
+          label="Password"
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          type="password"
+          value={password}
+          onChange={(e) => setState({ ...state, password: e.target.value })}
+          error={Boolean(state.passwordError)}
+          helperText={state.passwordError}
+        />
+        <TextField
+          label="Confirm Password"
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          type="password"
+          value={confirmPassword}
+          onChange={(e) =>
+            setState({ ...state, confirmPassword: e.target.value })
+          }
+          error={Boolean(state.confirmPasswordError)}
+          helperText={state.confirmPasswordError || state.matchError}
+        />
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          color="primary"
+          fullWidth
+          disabled={isLoading}
+          sx={{ mt: 3, mb: 2 }}
+        >
+          {isLoading ? "Loading..." : "Sign Up"}
+        </Button>
+        <Grid container justifyContent="flex-end">
+          <Grid item>
+            <Link variant="body2" onClick={navigateToLogin}>
+              Already have an account? Login
+            </Link>
+          </Grid>
+        </Grid>
+        {apiError !== "" && (
+          <Typography color="error" align="center">
+            {apiError}
+          </Typography>
+        )}
+      </Paper>
+    </Container>
   );
 };
 

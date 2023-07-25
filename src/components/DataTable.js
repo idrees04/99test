@@ -2,7 +2,7 @@
 // author Muhammad idrees
 
 import React from "react";
-import { Button, Typography, Link } from "@mui/material";
+import { Button, Typography, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, CssBaseline, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearUserToken } from "../slices/userSlice";
@@ -19,13 +19,54 @@ const DataTable = () => {
   };
 
   return (
-    <div>
-      <Typography variant="h5">Data Table</Typography>
-      {/* Implement your data table here if you have one. */}
-      <Button onClick={handleLogout} variant="contained" color="secondary">
-        Logout
-      </Button>
-    </div>
+    <Container component="main" maxWidth="md">
+      <CssBaseline />
+      <Paper
+        sx={{
+          padding: 4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h5">Data Table</Typography>
+        <TableContainer component={Paper} sx={{ mt: 3 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Age</TableCell>
+                <TableCell>Email</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {/* Replace the following table rows with your actual data */}
+              <TableRow>
+                <TableCell>1</TableCell>
+                <TableCell>John Doe</TableCell>
+                <TableCell>30</TableCell>
+                <TableCell>john@example.com</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>2</TableCell>
+                <TableCell>Jane Smith</TableCell>
+                <TableCell>28</TableCell>
+                <TableCell>jane@example.com</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Button
+          onClick={handleLogout}
+          variant="contained"
+          color="secondary"
+          sx={{ mt: 3 }}
+        >
+          Logout
+        </Button>
+      </Paper>
+    </Container>
   );
 };
 
