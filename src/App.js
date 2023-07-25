@@ -1,5 +1,5 @@
 // src/App.js
-import React, { lazy } from "react";
+import React, { Suspense, lazy } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import ErrorBoundary from "./ErrorBoundary";
 
@@ -10,15 +10,15 @@ const Home = lazy(() => import("./components/DataTable"));
 const App = () => {
   return (
     <BrowserRouter>
-            <ErrorBoundary>
-
-      <Routes>
-        <Route path="/" element={<Login />} />
-          <Route path="/siginUp" element={<SiginUp />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
+      <ErrorBoundary>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/siginUp" element={<SiginUp />} />
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        </Suspense>
       </ErrorBoundary>
-
     </BrowserRouter>
   );
 };

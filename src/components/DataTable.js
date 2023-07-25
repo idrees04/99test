@@ -4,14 +4,17 @@
 import React from "react";
 import { Button, Typography, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearUserToken } from "../slices/userSlice";
 
 const DataTable = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     // Implement the logout functionality here.
     // For example, clear the user token from localStorage and navigate to the login page.
-    localStorage.removeItem("userToken");
+    dispatch(clearUserToken());
     navigate("/");
   };
 

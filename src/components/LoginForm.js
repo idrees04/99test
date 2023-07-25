@@ -1,6 +1,8 @@
 // src/components/LoginForm.js
 
 import React, { useState, startTransition } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserToken } from "../slices/userSlice";
 import { handleEmailLogin } from "../api/ApiFunctions";
 import { TextField, Button, Typography, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -11,10 +13,14 @@ const LoginForm = () => {
     emailErr: "",
     passwordError: false,
   });
+
   const { email, password } = state;
   const [apiError, setApiError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userToken = useSelector((state) => state.user.token);
 
   const handleLogin = async () => {
     if (state.email === "")
@@ -48,6 +54,8 @@ const LoginForm = () => {
             // Now you can perform further actions with the resolved data.
             localStorage.setItem("userToken", resolvedData.access_token);
             if (resolvedData.access_token) {
+              dispatch(setUserToken(resolvedData.access_token));
+
               setIsLoading(false);
             }
             navigate("/home");

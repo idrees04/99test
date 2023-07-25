@@ -1,13 +1,13 @@
 // src/components/SignUpForm.js
 // author Muhammad idrees
-import React, { useState, startTransition } from "react";
-import PropTypes from "prop-types";
+import React, { useState, startTransition, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { emailSignUp } from "../api/ApiFunctions";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Typography, Link } from "@mui/material";
+import { setUserToken } from "../slices/userSlice";
 
 const SignUpForm = () => {
-
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -19,7 +19,9 @@ const SignUpForm = () => {
   });
   const { email, password, confirmPassword } = state;
   const [apiError, setApiError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async () => {
     if (state.email === "")
@@ -55,19 +57,32 @@ const SignUpForm = () => {
       });
     else {
       try {
+        setIsLoading(true);
+
         const res = await emailSignUp(email, password);
         console.log("res", res);
-        localStorage.setItem("userToken", res.data.access_token);
-        let memId = res.data?.memId;
-
+        if (res.data.access_token) {
+          dispatch(setUserToken(res.data.access_token));
+          setIsLoading(false);
+          navigate("/");
+        }
         //      handleUserRedirect(res.data, memId);
       } catch (error) {
         if (error.message === "Email already exists")
           console.log("error", error);
+        setIsLoading(false);
+
         setApiError(error.message);
       }
     }
   };
+
+  useEffect(() => {
+   setTimeout(() => {
+    setApiError("");
+   }, 3000);
+  }, [apiError])
+  
 
   const handleKeypress = (e) => {
     if (e.key === "Enter") {
@@ -83,13 +98,13 @@ const SignUpForm = () => {
 
   return (
     <div onKeyDown={handleKeypress}>
-     <Typography variant="h5">Sign Up</Typography>
+      <Typography variant="h5">Sign Up</Typography>
       <TextField
         label="Email"
         value={email}
         onChange={(e) => setState({ ...state, email: e.target.value })}
         error={Boolean(state.emailErr)}
-        helperText={state.emailErr}
+        helperText={state.emailErr }
         fullWidth
       />
       <TextField
@@ -112,13 +127,19 @@ const SignUpForm = () => {
         helperText={state.confirmPasswordError}
         fullWidth
       />
-      <Button onClick={handleSubmit} variant="contained" color="primary" fullWidth>
+      <Button
+        onClick={handleSubmit}
+        variant="contained"
+        color="primary"
+        fullWidth
+      >
         Sign Up
       </Button>
       <Typography>
         Already have an account?
         <Link onClick={navigateToLogin}>Login</Link>
       </Typography>
+      <p>{apiError!==""? apiError:null}</p>
     </div>
   );
 };
