@@ -18,7 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearUserToken } from "../slices/userSlice";
-import { getData  } from "../api/ApiFunctions";
+import { getData } from "../api/ApiFunctions";
 
 const DataTable = () => {
   const navigate = useNavigate();
@@ -27,13 +27,13 @@ const DataTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-          const data = await getData();
-          setData(data);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      };
+      try {
+        const data = await getData();
+        setData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
     fetchData();
   }, []);

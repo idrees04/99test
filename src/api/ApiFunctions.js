@@ -2,7 +2,7 @@
 
 import axios from "axios";
 export const url = "https://reqres.in/api";
-export const url3="https://randomuser.me/api/";
+export const url3 = "https://randomuser.me/api/";
 
 // api url https://reqres.in/
 export const handleEmailLogin = (email, password) => {
@@ -19,7 +19,7 @@ export const handleEmailLogin = (email, password) => {
         return res.data;
       })
       .catch((e) => {
-       throw new Error(e.response.data.error);
+        throw new Error(e.response.data.error);
       });
   } catch (error) {
     throw new Error(error);
@@ -36,7 +36,7 @@ export const emailSignUp = async (email, password) => {
     );
     return res.data;
   } catch (error) {
-    console.log(error.response.data.error)
+    console.log(error.response.data.error);
     throw new Error(error.response.data.error);
   }
 };

@@ -13,7 +13,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <ErrorBoundary>
-        <Suspense fallback={<Loader/>}>
+        <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/siginUp" element={<SiginUp />} />
