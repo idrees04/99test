@@ -4,27 +4,27 @@ import axios from "axios";
 export const url = "https://reqres.in/api";
 export const url3 = "https://randomuser.me/api/";
 
-// api url https://reqres.in/
-export const handleEmailLogin = (email, password) => {
-  const data = {
-    email,
-    password,
+  // api url https://reqres.in/
+  export const handleEmailLogin = (email, password) => {
+    const data = {
+      email,
+      password,
+    };
+  
+      try {
+      return axios
+        .post(`${url}/login`, JSON.stringify(data), tokenConfig())
+        .then((res) => {
+          console.log("res.data.data", res.data);
+          return res.data;
+        })
+        .catch((e) => {
+          throw new Error(e.response.data.error);
+        });
+    } catch (error) {
+      throw new Error(error);
+    }
   };
-
-  try {
-    return axios
-      .post(`${url}/login`, JSON.stringify(data), tokenConfig())
-      .then((res) => {
-        console.log("res.data.data", res.data);
-        return res.data;
-      })
-      .catch((e) => {
-        throw new Error(e.response.data.error);
-      });
-  } catch (error) {
-    throw new Error(error);
-  }
-};
 
 export const emailSignUp = async (email, password) => {
   const body = { email, password };
